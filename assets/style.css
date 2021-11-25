@@ -1,0 +1,12 @@
+#quizbox {
+    position: absolute;
+    left: 35%;
+    top: 30%;
+    width: 400px;
+    height: 400px;
+}
+#startQuiz {
+    padding: 10px 10px;
+    background-color: blueviolet;
+    color: white;
+}

@@ -10,3 +10,10 @@
     background-color: blueviolet;
     color: white;
 }
+li {
+    padding: 10px 10px;
+    background-color: blueviolet;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+}

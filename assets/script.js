@@ -43,9 +43,9 @@ function display(questionList) {
         var answerChoices = questions[questionList].choices;
         quizQuestion.textContent = newQuestion;
     }
-    answerChoices.forEach(function (newItem) {
+    answerChoices.forEach(function (right) {
         var answerList = document.createElement("li");
-        answerList.textContent = newItem;
+        answerList.textContent = right;
         quizQuestion.appendChild(runQuiz);
         runQuiz.appendChild(answerList);
         answerList.addEventListener("click", (check));
@@ -57,7 +57,7 @@ function check(event) {
     if (element.matches("li")) {
         var result = document.createElement("div");
         result.setAttribute("id", "result");
-        if (element.textContent == questions[questionList].answer) {
+        if (element.textContent = questions[questionList].answer) {
             result.textContent = "Correct"
         } else {
             secondsLeft = secondsLeft - reduce;
@@ -65,7 +65,7 @@ function check(event) {
         }
  }
    
-    questionList++;
+ questionList++;
     if (questionList >= questions.length) {
         endQuiz();
        

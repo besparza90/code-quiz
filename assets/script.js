@@ -57,7 +57,7 @@ function check(event) {
     if (element.matches("li")) {
         var result = document.createElement("div");
         result.setAttribute("id", "result");
-        if (element.textContent = questions[questionList].answer) {
+        if (element.textContent == questions[questionList].answer) {
             result.textContent = "Correct"
         } else {
             secondsLeft = secondsLeft - reduce;

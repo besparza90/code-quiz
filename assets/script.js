@@ -25,7 +25,7 @@ var questions = [
     answer: "console.log"
 },
 ]
-var score = 0;
+
 var secondsLeft = 60;
 var questionList = 0;
 var reduce = 5;
@@ -34,7 +34,48 @@ var timeLeft = document.querySelector("#countdown");
 var runQuiz = document.createElement("ul");
 var clock = document.querySelector("#startQuiz");
 var quizQuestion = document.querySelector("#question");
-
+ // Displays the questions and answer choices
+function display(questionList) {
+    quizQuestion.innerHTML = "";
+    runQuiz.innerHTML = "";
+    for (var i = 0; i < questions.length; i++) {
+        var newQuestion = questions[questionList].question;
+        var answerChoices = questions[questionList].choices;
+        quizQuestion.textContent = newQuestion;
+    }
+    answerChoices.forEach(function (newItem) {
+        var answerList = document.createElement("li");
+        answerList.textContent = newItem;
+        quizQuestion.appendChild(runQuiz);
+        runQuiz.appendChild(answerList);
+        answerList.addEventListener("click", (check));
+    })
+}
+ // Checks answer from user
+function check(event) {
+    var element = event.target;
+    if (element.matches("li")) {
+        var result = document.createElement("div");
+        result.setAttribute("id", "result");
+        if (element.textContent == questions[questionList].answer) {
+            result.textContent = "Correct"
+        } else {
+            secondsLeft = secondsLeft - reduce;
+            result.textContent = "Incorrect"
+        }
+ }
+   
+    questionList++;
+    if (questionList >= questions.length) {
+        endQuiz();
+       
+    } else {
+        display(questionList);
+    }
+    quizQuestion.appendChild(result);
+ 
+}
+ // Sets up timer and displays it to page
 clock.addEventListener("click", function () {
     if (endTime === 0) {
         endTime = setInterval(function () {
@@ -47,48 +88,70 @@ clock.addEventListener("click", function () {
             }
         }, 1000);
     }
-    render(questionList);
+    display(questionList);
 });
-
-function render(questionList) {
+ // Displays end of quiz and final score
+function endQuiz() {
     quizQuestion.innerHTML = "";
-    runQuiz.innerHTML = "";
-    for (var i = 0; i < questions.length; i++) {
-        var newQuestion = questions[questionList].question;
-        var userChoices = questions[questionList].choices;
-        quizQuestion.textContent = newQuestion;
+    timeLeft.innerHTML = "";
+   
+    var write = document.createElement("p");
+    write.setAttribute("id", "write");
+    quizQuestion.appendChild(write);
+   
+    if (secondsLeft >= 0) {
+        var score = secondsLeft;
+        var final = document.createElement("p");
+        clearInterval(endTime);
+        write.textContent = "Final score: " + score;
+        quizQuestion.appendChild(final);
     }
-    userChoices.forEach(function (newItem) {
-        var answerList = document.createElement("li");
-        answerList.textContent = newItem;
-        quizQuestion.appendChild(runQuiz);
-        runQuiz.appendChild(answerList);
-        answerList.addEventListener("click", (check));
-    })
-}
-
-function check(event) {
-    var element = event.target;
-    if (element.matches("li")) {
-        var result = document.createElement("div");
-        result.setAttribute("id", "createDiv");
-        if (element.textContent == questions[questionList].answer) {
-            score++;
-            result.textContent = "Correct" 
-        } else {
-            secondsLeft = secondsLeft - reduce;
-            result.textContent = "Incorrect"
-        }
-
-    }
-    
-    questionList++;
-    if (questionList >= questions.length) {
-        endQuiz();
+   // Allows user to enter intials
+    var submitName = document.createElement("label");
+    submitName.setAttribute("id", "submitName");
+    submitName.textContent = "Enter your initials: ";
+    quizQuestion.appendChild(submitName);
+   
+    var writeName = document.createElement("input");
+    writeName.setAttribute("type", "text");
+    writeName.setAttribute("id", "initials");
+    writeName.textContent = "";
+    quizQuestion.appendChild(writeName);
+   
+    var enterName = document.createElement("button");
+    enterName.setAttribute("type", "submit");
+    enterName.setAttribute("id", "Submit");
+    enterName.textContent = "Submit";
+    quizQuestion.appendChild(enterName);
+ 
+    // Stores names and score for storage
+    enterName.addEventListener("click", function () {
+        var initials = writeName.value;
         
-    } else {
-        render(questionList);
-    }
-    quizQuestion.appendChild(result);
-
+ 
+        if (initials.trim () === "") {
+ 
+            return;
+ 
+        } else {
+            var finalScore = {
+                initials: initials,
+                score: score
+            }
+            var allScores = localStorage.getItem("totalScores");
+            if (allScores === null) {
+                allScores = [];
+            } else {
+                allScores = JSON.parse(allScores);
+            }
+            allScores.push(finalScore);
+            var newScore = JSON.stringify(allScores);
+            localStorage.setItem("totalScores", newScore);
+            window.location.replace("./score.html");
+        }
+    });
+ 
 }
+
+ 
+

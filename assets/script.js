@@ -134,9 +134,7 @@ function endQuiz() {
             return;
  
         } else {
-            var finalScore = {
-                initials: initials,
-                score: score
+            var finalScore = {initials, score
             }
             var allScores = localStorage.getItem("totalScores");
             if (allScores === null) {
